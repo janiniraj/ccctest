@@ -29,9 +29,9 @@ class StudentController extends Controller
      * @return mixed
      */
     public function index(Request $request)
-    {die("DFdf");
+    {
         return view('backend.students.index')
-            ->withStudents($this->students->getActivePaginated(25, 'id', 'asc'));;
+            ->withStudents($this->students->getActivePaginated(25, 'id', 'asc'));
     }
 
     /**
@@ -53,16 +53,16 @@ class StudentController extends Controller
     {
         $this->students->create($request->all());
 
-        return redirect()->route('admin.students.index')->withFlashSuccess(trans('alerts.backend.students.created'));
+        return redirect()->route('admin.students.index')->withFlashSuccess("Student Created Successfully.");
     }
 
     /**
-     * @param Student              $student
+     * @param User              $student
      * @param Request $request
      *
      * @return mixed
      */
-    public function edit(Student $student, Request $request)
+    public function edit(User $student, Request $request)
     {
         return view('backend.students.edit')
             ->withStudent($student);
@@ -74,11 +74,11 @@ class StudentController extends Controller
      *
      * @return mixed
      */
-    public function update(Student $student, Request $request)
+    public function update(User $student, Request $request)
     {
         $this->students->update($student, $request->all());
 
-        return redirect()->route('admin.students.index')->withFlashSuccess(trans('alerts.backend.students.updated'));
+        return redirect()->route('admin.students.index')->withFlashSuccess("Student updated Successfully.");
     }
 
     /**
@@ -87,10 +87,10 @@ class StudentController extends Controller
      *
      * @return mixed
      */
-    public function destroy(Student $student, Request $request)
+    public function destroy(User $student, Request $request)
     {
         $this->students->deleteById($student->id);
 
-        return redirect()->route('admin.students.index')->withFlashSuccess(trans('alerts.backend.students.deleted'));
+        return redirect()->route('admin.students.index')->withFlashSuccess("Student deleted Successfully.");
     }
 }

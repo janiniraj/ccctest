@@ -36,6 +36,7 @@ class StudentRepository extends BaseRepository
     public function getActivePaginated($studentd = 25, $orderBy = 'created_at', $sort = 'desc')
     {
         return $this->model
+            ->where('role', 'student')
             ->orderBy($orderBy, $sort)
             ->paginate($studentd);
     }
@@ -49,28 +50,29 @@ class StudentRepository extends BaseRepository
      */
     public function create(array $input)
     {
-        if ($this->model->where('slug', $input['slug'])->first()) {
-            throw new GeneralException(trans('exceptions.backend.students.already_exists'));
+        if ($this->model->where('email', $input['email'])->first()) {
+            throw new GeneralException("Already exist.");
         }
 
         DB::transaction(function () use ($input) {
-            $Students = self::MODEL;
-            $Students = new $Students();
-            $Students->name = $input['name'];
-            $Students->slug = $input['slug'];
-            $Students->content = $input['content'];
+            $student = self::MODEL;
+            $student = new $student();
+            $student->name = $input['name'];
+            $student->email = $input['email'];
 
-            if ($Students->save()) {
+            $student->password = bcrypt($input['password']);
+
+            if ($student->save()) {
 
                 // event(new StudentCreated($Students));
                 return true;
             }
-            throw new GeneralException(trans('exceptions.backend.students.create_error'));
+            throw new GeneralException("Error in creating student.");
         });
     }
 
     /**
-     * @param Model $permission
+     * @param Model $student
      * @param  $input
      *
      * @throws GeneralException
@@ -78,57 +80,45 @@ class StudentRepository extends BaseRepository
      * return bool
      */
      
-    public function update(Model $Students, array $input)
+    public function update(Model $student, array $input)
     {
-        if ($this->model->where('slug', $input['slug'])->where('id', '!=', $Students->id)->first()) {
+        if ($this->model->where('email', $input['email'])->where('id', '!=', $student->id)->first()) {
             throw new GeneralException(trans('exceptions.backend.students.already_exists'));
         }
-        $Students->name = $input['name'];
-        $Students->slug = $input['slug'];
-        $Students->content = $input['content'];
+        $student->name = $input['name'];
+        $student->email = $input['email'];
 
-        DB::transaction(function () use ($Students, $input) {
-        	if ($Students->save()) {
-                // event(new StudentUpdated($Students));
+        if($input['password'])
+        {
+            $student->password = bcrypt($input['password']);
+        }
 
+        DB::transaction(function () use ($student, $input) {
+        	if ($student->save()) {
                 return true;
             }
 
-            throw new GeneralException(
-                trans('exceptions.backend.students.update_error')
-            );
+            throw new GeneralException("Error in Editing Student.");
         });
     }
 
     /**
-     * @param Model $category
+     * @param Model $student
      *
      * @throws GeneralException
      *
      * @return bool
      */
-    public function forceDelete(Model $category)
+    public function forceDelete(Model $student)
     {
-        DB::transaction(function () use ($category) {
+        DB::transaction(function () use ($student) {
 
-            if ($category->delete()) {
-                // event(new StudentDeleted($category));
-
+            if ($student->delete()) {
                 return true;
             }
 
-            throw new GeneralException(trans('exceptions.backend.students.delete_error'));
+            throw new GeneralException("Error in deleting student.");
         });
     }
 
-    /**
-     * Get Student By Slug
-     *
-     * @param $slug
-     * @return Model|null|object|static
-     */
-    public function getStudentBySlug($slug)
-    {
-        return $this->model->where('slug', $slug)->first();
-    }
 }
