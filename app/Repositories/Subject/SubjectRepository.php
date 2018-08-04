@@ -49,22 +49,13 @@ class SubjectRepository extends BaseRepository
      */
     public function create(array $input)
     {
-        if ($this->model->where('email', $input['email'])->first()) {
-            throw new GeneralException("Already exist.");
-        }
-
         DB::transaction(function () use ($input) {
             $subject = self::MODEL;
             $subject = new $subject();
             $subject->name = $input['name'];
-            $subject->email = $input['email'];
-            $subject->degree = $input['degree'];
-
-            $subject->password = bcrypt($input['password']);
+            $subject->semester_id = $input['semester_id'];
 
             if ($subject->save()) {
-
-                // event(new SubjectCreated($Subjects));
                 return true;
             }
             throw new GeneralException("Error in creating subject.");
@@ -82,17 +73,8 @@ class SubjectRepository extends BaseRepository
      
     public function update(Model $subject, array $input)
     {
-        if ($this->model->where('email', $input['email'])->where('id', '!=', $subject->id)->first()) {
-            throw new GeneralException(trans('exceptions.backend.subjects.already_exists'));
-        }
         $subject->name = $input['name'];
-        $subject->email = $input['email'];
-        $subject->degree = $input['degree'];
-
-        if($input['password'])
-        {
-            $subject->password = bcrypt($input['password']);
-        }
+        $subject->semester_id = $input['semester_id'];
 
         DB::transaction(function () use ($subject, $input) {
         	if ($subject->save()) {

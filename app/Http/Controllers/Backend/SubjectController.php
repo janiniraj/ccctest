@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Backend;
 
-use App\User;
+use App\SubjectModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Subject\SubjectRepository;
@@ -57,24 +57,24 @@ class SubjectController extends Controller
     }
 
     /**
-     * @param User              $subject
+     * @param SubjectModel              $subject
      * @param Request $request
      *
      * @return mixed
      */
-    public function edit(User $subject, Request $request)
+    public function edit(SubjectModel $subject, Request $request)
     {
         return view('backend.subjects.edit')
             ->withSubject($subject);
     }
 
     /**
-     * @param Subject              $subject
+     * @param SubjectModel              $subject
      * @param Request $request
      *
      * @return mixed
      */
-    public function update(User $subject, Request $request)
+    public function update(SubjectModel $subject, Request $request)
     {
         $this->subjects->update($subject, $request->all());
 
@@ -82,12 +82,12 @@ class SubjectController extends Controller
     }
 
     /**
-     * @param Subject              $subject
+     * @param SubjectModel              $subject
      * @param Request $request
      *
      * @return mixed
      */
-    public function destroy(User $subject, Request $request)
+    public function destroy(SubjectModel $subject, Request $request)
     {
         $this->subjects->deleteById($subject->id);
 

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\Subject;
 
 class SubjectModel extends Model
 {
+    protected $table = 'subjects';
 
     /**
      * The attributes that are mass assignable.
