@@ -19,6 +19,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
@@ -45,10 +49,30 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @else
+
+                            @if(Auth::user()->role == 'student')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('student.info') }}">{{ __('Info') }}</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('student.marks-info') }}">{{ __('Marks Info') }}</a>
+                                </li>
+                            @endif
+
                             @if(Auth::user()->role == 'admin')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.students.index') }}">{{ __('Student') }}</a>
+                                <a class="nav-link" href="{{ route('admin.students.index') }}">{{ __('Student Module') }}</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.subjects.index') }}">{{ __('Subject Module') }}</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.subjects.index') }}">{{ __('Mark Module') }}</a>
+                            </li>
+
                             @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

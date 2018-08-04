@@ -104,4 +104,8 @@ class SubjectRepository extends BaseRepository
         });
     }
 
+    public function getBySemster($semesterId)
+    {
+        return $this->model->where('semester_id', $semesterId)->get();
+    }
 }

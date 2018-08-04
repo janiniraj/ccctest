@@ -93,4 +93,18 @@ class SubjectController extends Controller
 
         return redirect()->route('admin.subjects.index')->withFlashSuccess("Subject deleted Successfully.");
     }
+
+
+    public function getBySemester($semesterId)
+    {
+        $data = $this->subjects->getBySemster($semesterId);
+        if($data)
+        {
+            return response()->json($data->pluck('name', 'id'));
+        }
+        else
+        {
+            return response()->json([]);
+        }
+    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 
-@section ('title', 'Subject Listing')
+@section ('title', 'Mark Listing')
 
 
 @section('content')
@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-sm-5">
                         <h4 class="card-title mb-0">
-                            Subject List
+                            Mark List
                         </h4>
                     </div><!--col-->
 
@@ -24,21 +24,24 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Semester</th>
+                                    <th>Student Name</th>
+                                    <th>Semester Name</th>
+                                    <th>Subject Name</th>
+                                    <th>Marks</th>
                                     <th>Created Time</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($subjects as $oneStudent)
+                                @foreach ($marks as $oneStudent)
                                     <tr>
-                                        <td>{{ $oneStudent->name }}</td>
-                                        <td>{{ config('const.semesters')[$oneStudent->semester_id] }}</td>
+                                        <td>{{ $oneStudent->student->name }}</td>
+                                        <td>{{ $oneStudent->subject->name }}</td>
+                                        <td>{{ config('const.semesters')[$oneStudent->subject->semester_id] }}</td>
+                                        <td>{{ $oneStudent->marks }}</td>
                                         <td>{{ $oneStudent->created_at->diffForHumans() }}</td>
-                                        <td><a href="{{ route('admin.subjects.edit',$oneStudent->id) }}" class="btn btn-primary">Edit</a>
-                                            <br><br>
-                                            {{ html()->form('delete', route('admin.subjects.destroy', $oneStudent->id))->class('pull-right')->open() }}
+                                        <td>
+                                            {{ html()->form('delete', route('admin.marks.destroy', $oneStudent->id))->class('pull-right')->open() }}
                                             <button type="submit" class="btn btn-warning">Delete</button>
                                             {{ html()->form()->close() }}
                                         </td>
@@ -52,7 +55,7 @@
                 <div class="row">
                     <div class="col-7">
                         <div class="float-left">
-                            &emsp;Total {!! $subjects->total() !!} Records
+                            &emsp;Total {!! $marks->total() !!} Records
                         </div>
                     </div><!--col-->
 
@@ -63,6 +66,6 @@
             </div><!--card-body-->
         </div><!--card-->
         <br>
-        <a href="{{route('admin.subjects.create')}}" class="btn btn-primary">Add a Subject</a>
+        <a href="{{route('admin.marks.create')}}" class="btn btn-primary">Add Mark</a>
     </div>
 @endsection

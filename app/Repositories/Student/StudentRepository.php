@@ -123,4 +123,16 @@ class StudentRepository extends BaseRepository
         });
     }
 
+    /**
+     * Get all
+     *
+     * @param array $columns
+     * @param bool $list
+     * @return mixed
+     */
+    public function all(array $columns = ['*'], $list = false)
+    {
+        return $this->model->where('role', 'student')->get($columns);
+    }
+
 }
