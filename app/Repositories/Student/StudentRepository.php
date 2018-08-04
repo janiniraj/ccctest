@@ -27,18 +27,18 @@ class StudentRepository extends BaseRepository
     }
 
     /**
-     * @param int    $studentd
+     * @param int    $paged
      * @param string $orderBy
      * @param string $sort
      *
      * @return mixed
      */
-    public function getActivePaginated($studentd = 25, $orderBy = 'created_at', $sort = 'desc')
+    public function getActivePaginated($paged = 25, $orderBy = 'created_at', $sort = 'desc')
     {
         return $this->model
             ->where('role', 'student')
             ->orderBy($orderBy, $sort)
-            ->paginate($studentd);
+            ->paginate($paged);
     }
 
     /**
