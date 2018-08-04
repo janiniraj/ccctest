@@ -38,6 +38,19 @@
                             ->required() }}
         </div>
 
+        <div class="form-group">
+
+            {{ html()->label('degree')->class('col-md-2 form-control-label')->for('name') }}
+            {{ html()->select('degree')
+                            ->options([
+                                'B.Tech' => 'B.Tech',
+                                'B.Sc'  => 'B.sc'
+                            ])
+                            ->class('form-control')
+                            ->placeholder('Degree')
+                            ->required() }}
+        </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="{{route('admin.students.index')}}" class="btn btn-primary">Back to Listing</a>
         {{ html()->form()->close() }}

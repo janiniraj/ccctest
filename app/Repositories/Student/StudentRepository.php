@@ -59,6 +59,7 @@ class StudentRepository extends BaseRepository
             $student = new $student();
             $student->name = $input['name'];
             $student->email = $input['email'];
+            $student->degree = $input['degree'];
 
             $student->password = bcrypt($input['password']);
 
@@ -87,6 +88,7 @@ class StudentRepository extends BaseRepository
         }
         $student->name = $input['name'];
         $student->email = $input['email'];
+        $student->degree = $input['degree'];
 
         if($input['password'])
         {
